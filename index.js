@@ -16,6 +16,7 @@ mongoose.connect(db)
 app.get('/', (req, res) => {
     res.send("Welcome to Express");
 })
+//use stages
 app.use('/api/users', users);
 app.use('/api/posts', posts);
 app.use('/api/profile', profile);
