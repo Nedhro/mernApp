@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
 const app = express();
 
@@ -16,6 +17,9 @@ mongoose.connect(db)
 app.get('/', (req, res) => {
     res.send("Welcome to Express");
 })
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 //use stages
 app.use('/api/users', users);
 app.use('/api/posts', posts);
