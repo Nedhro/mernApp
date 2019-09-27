@@ -1,31 +1,37 @@
 const express = require("express");
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const passport = require("passport");
 
 const app = express();
 
-const users = require('./routes/api/users.js');
-const posts = require('./routes/api/posts.js');
-const profile = require('./routes/api/profile.js');
+const users = require("./routes/api/users.js");
+const posts = require("./routes/api/posts.js");
+const profile = require("./routes/api/profile.js");
 
-const db = require('./config/key').mongoURI;
+const db = require("./config/key").mongoURI;
 
-mongoose.connect(db)
-    .then(() => console.log('Database connected'))
+mongoose
+    .connect(db)
+    .then(() => console.log("Database connected"))
     .catch(err => console.log(err));
 
-app.get('/', (req, res) => {
+app.get("/", (req, res) => {
     res.send("Welcome to Express");
-})
+});
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+//passport
+app.use(passport.initialize());
+
+require("./config/passport")(passport);
+
 //use stages
-app.use('/api/users', users);
-app.use('/api/posts', posts);
-app.use('/api/profile', profile);
+app.use("/api/users", users);
+app.use("/api/posts", posts);
+app.use("/api/profile", profile);
 
 const port = process.env.PORT || 5000;
 
-app.listen(port,
-    () => console.log(`listening to the port ${port}`))
+app.listen(port, () => console.log(`listening to the port ${port}`));
