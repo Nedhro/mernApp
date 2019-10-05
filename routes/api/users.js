@@ -7,11 +7,18 @@ const keys = require("../../config/key");
 const passport = require("passport");
 
 const User = require("../../models/User");
+const validateRegistrationInput = require('../../validation/register');
 
 router.get("/test", (req, res) => res.json({ msg: "User page works" }));
 
 //api/users/register
 router.post("/register", (req, res) => {
+    const { errors, isValid } = validateRegistrationInput(req.body);
+
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+
     User.findOne({ email: req.body.email }).then(user => {
         const avatar = gravatar.url(req.body.email, {
             s: 200,
@@ -59,7 +66,7 @@ router.post("/login", (req, res) => {
                 const payload = { id: user.id, name: user.name, avatar: user.avatar };
                 jwt.sign(
                     payload,
-                    keys.secretOrKey, { expiresIn: 3600 },
+                    keys.secretOrKey, { expiresIn: 3600000 },
                     (err, token) => {
                         res.json({
                             success: true,
@@ -78,7 +85,11 @@ router.get(
     "/current",
     passport.authenticate("jwt", { session: false }),
     (req, res) => {
-        res.json({ msg: "success" });
+        res.json({
+            id: req.user.id,
+            name: req.user.name,
+            email: req.user.email
+        });
     }
 );
 module.exports = router;
