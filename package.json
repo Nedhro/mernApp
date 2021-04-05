@@ -9,7 +9,7 @@
         "server": "nodemon server.js",
         "client": "npm start --prefix client",
         "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
-        "prod": "cd client && npm build && cd .. && npm run start"
+        "prod": "cd client && npm build && cd .. && npm run build"
     },
     "author": {
     "name": "Mohammad Amdadul Islam Nidhro",
