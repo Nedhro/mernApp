@@ -5,13 +5,18 @@
     "main": "server.js",
     "scripts": {
         "client-install": "npm install --prefix client",
-        "start": "node server.js",
+        "build": "node server.js",
         "server": "nodemon server.js",
         "client": "npm start --prefix client",
         "dev": "concurrently \"npm run server\" \"npm run client\"",
-        "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+        "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client",
+        "prod": "cd client && npm run build && cd .. && npm run build"
     },
-    "author": "Emdad Amin",
+    "author": {
+    "name": "Mohammad Amdadul Islam Nidhro",
+    "twitter": "@imnidhro",
+    "linkedIn": "https://www.linkedin.com/in/nidhro/"
+    },
     "license": "MIT",
     "dependencies": {
         "axios": "^0.19.0",
